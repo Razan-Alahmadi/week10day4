@@ -19,14 +19,17 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
-    - name: Restore dependencies
-      run: dotnet restore
+    - name: Restore dependencies for ProductApi
+      run: dotnet restore ./Week10-day1/ProductApi.csproj 
 
-    - name: Build solution
-      run: dotnet build --no-restore --configuration Release
+    - name: Build ProductApi solution
+      run: dotnet build ./Week10-day1/ProductApi.csproj --no-restore --configuration Release 
 
-    - name: Run unit tests
-      run: dotnet test --no-build --configuration Release --logger "trx;LogFileName=test_results.trx"
+    - name: Restore dependencies for ProductTest
+      run: dotnet restore ./ProductTest/ProductTest.csproj  
+
+    - name: Run unit tests for ProductTest
+      run: dotnet test ./ProductTest/ProductTest.csproj --no-build --configuration Release --logger "trx;LogFileName=test_results.trx" 
 
     - name: Upload Test Results
       uses: actions/upload-artifact@v4
