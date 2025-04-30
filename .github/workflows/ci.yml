@@ -19,21 +19,18 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
-    # Single restore for all projects
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./Week10-day1/ProductApi.sln
 
-    # Build the test project explicitly 
-    - name: Build test project
-      run: dotnet build ./ProductTest/ProductTest.csproj --configuration Release --no-restore
+    - name: Build solution
+      run: dotnet build ./Week10-day1/ProductApi.sln --configuration Release --no-restore
 
-    # Run tests with full verbosity to see more details
     - name: Run unit tests
-      run: dotnet test ./ProductTest/ProductTest.csproj --configuration Release --logger "trx;LogFileName=test_results.trx" --verbosity normal
+      run: dotnet test ./ProductTest/ProductTest.csproj --configuration Release --no-build --logger "trx;LogFileName=test_results.trx"
 
     - name: Upload Test Results
       uses: actions/upload-artifact@v4
-      if: always()  
+      if: always()
       with:
         name: test-results
         path: '**/test_results.trx'
